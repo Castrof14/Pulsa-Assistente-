@@ -12,6 +12,7 @@ export default function MarcaPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="IDENTIDADE & TOM"
         title="Perfil da marca"
         description="Configure o tom de voz, a paleta de cores e as diretrizes que guiam a identidade do seu conteúdo."
       />

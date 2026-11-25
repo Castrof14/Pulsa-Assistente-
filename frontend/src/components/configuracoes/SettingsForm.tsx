@@ -15,26 +15,29 @@ import { Button } from "@/components/ui/Button";
 const FUTURE_INTEGRATIONS = [
   {
     name: "Assistente de IA (Claude)",
-    module: "Módulo 3",
+    module: "MÓDULO 03",
     description:
       "Geração automática de ideias, pautas, legendas e roteiros personalizados conforme o perfil da marca.",
     icon: Sparkles,
   },
   {
     name: "Instagram Graph API",
-    module: "Módulo 5",
+    module: "MÓDULO 05",
     description:
       "Autorização oficial de contas profissionais para agendamento e publicação direta de Feed, Reels e Stories.",
     icon: Camera,
   },
   {
     name: "Automação & Atende+ (WhatsApp)",
-    module: "Módulo 6",
+    module: "MÓDULO 06",
     description:
       "Monitoramento de comentários, respostas em Direct e encaminhamento de leads para o Atende+.",
     icon: MessageSquare,
   },
 ];
+
+const INPUT_CLASS =
+  "w-full rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] text-foreground focus:border-foreground focus:outline-none";
 
 export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
   const [settings, setSettings] = useState<WorkspaceSettings>(initial);
@@ -61,11 +64,13 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
   return (
     <form onSubmit={handleSave} className="space-y-6">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Preferências visuais */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Preferências visuais</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                01 / INTERFACE
+              </span>
+              <CardTitle className="mt-1">Preferências visuais</CardTitle>
               <CardDescription>
                 Personalize a aparência e o ritmo de leitura da interface
               </CardDescription>
@@ -73,10 +78,10 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
           </CardHeader>
           <CardContent className="space-y-5">
             <div>
-              <label className="mb-2 block text-[12px] font-medium text-foreground">
+              <label className="mb-2 block text-[13px] font-medium text-foreground">
                 Tema da interface
               </label>
-              <div className="grid grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-3 gap-2">
                 {(
                   [
                     { id: "light", label: "Claro" },
@@ -88,9 +93,9 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                     key={opt.id}
                     type="button"
                     onClick={() => setSettings((s) => ({ ...s, theme: opt.id }))}
-                    className={`rounded-lg border px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
+                    className={`rounded-[6px] border px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
                       settings.theme === opt.id
-                        ? "border-brand bg-brand-soft/60 text-foreground ring-1 ring-brand/30"
+                        ? "border-primary bg-primary text-on-primary"
                         : "border-border bg-surface text-foreground-secondary hover:bg-surface-muted"
                     }`}
                   >
@@ -101,10 +106,10 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
             </div>
 
             <div>
-              <label className="mb-2 block text-[12px] font-medium text-foreground">
+              <label className="mb-2 block text-[13px] font-medium text-foreground">
                 Densidade de layout
               </label>
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-2">
                 {(
                   [
                     { id: "comfortable", label: "Confortável" },
@@ -115,9 +120,9 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                     key={opt.id}
                     type="button"
                     onClick={() => setSettings((s) => ({ ...s, density: opt.id }))}
-                    className={`rounded-lg border px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
+                    className={`rounded-[6px] border px-3 py-2 text-[13px] font-medium transition-colors cursor-pointer ${
                       settings.density === opt.id
-                        ? "border-foreground bg-foreground text-surface"
+                        ? "border-primary bg-primary text-on-primary"
                         : "border-border bg-surface text-foreground-secondary hover:bg-surface-muted"
                     }`}
                   >
@@ -127,14 +132,14 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
               </div>
             </div>
 
-            <div className="space-y-3 border-t border-border/70 pt-4">
+            <div className="space-y-3 border-t border-border pt-4">
               <label className="flex items-center justify-between gap-3 cursor-pointer">
                 <div>
                   <div className="text-[13px] font-medium text-foreground">
                     Resumo semanal por e-mail
                   </div>
-                  <div className="text-[11px] text-foreground-muted">
-                    Receba um panorama das publicações planejadas toda segunda-feira
+                  <div className="text-[12px] text-foreground-secondary">
+                    Panorama das publicações planejadas toda segunda-feira
                   </div>
                 </div>
                 <input
@@ -143,7 +148,7 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                   onChange={(e) =>
                     setSettings((s) => ({ ...s, emailDigest: e.target.checked }))
                   }
-                  className="h-4 w-4 accent-brand"
+                  className="h-4 w-4 accent-foreground"
                 />
               </label>
 
@@ -152,7 +157,7 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                   <div className="text-[13px] font-medium text-foreground">
                     Lembretes de aprovação
                   </div>
-                  <div className="text-[11px] text-foreground-muted">
+                  <div className="text-[12px] text-foreground-secondary">
                     Alertar quando houver conteúdos aguardando revisão
                   </div>
                 </div>
@@ -165,18 +170,20 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                       approvalReminders: e.target.checked,
                     }))
                   }
-                  className="h-4 w-4 accent-brand"
+                  className="h-4 w-4 accent-foreground"
                 />
               </label>
             </div>
           </CardContent>
         </Card>
 
-        {/* Informações da conta */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Informações básicas da conta</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                02 / CONTA
+              </span>
+              <CardTitle className="mt-1">Informações básicas da conta</CardTitle>
               <CardDescription>
                 Dados do responsável e fuso horário do workspace
               </CardDescription>
@@ -186,7 +193,7 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
             <div>
               <label
                 htmlFor="acc-owner"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Responsável pela conta
               </label>
@@ -197,14 +204,14 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                 onChange={(e) =>
                   setSettings((s) => ({ ...s, ownerName: e.target.value }))
                 }
-                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none"
+                className={INPUT_CLASS}
               />
             </div>
 
             <div>
               <label
                 htmlFor="acc-email"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 E-mail de contato
               </label>
@@ -215,7 +222,7 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                 onChange={(e) =>
                   setSettings((s) => ({ ...s, ownerEmail: e.target.value }))
                 }
-                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none"
+                className={INPUT_CLASS}
               />
             </div>
 
@@ -223,7 +230,7 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
               <div>
                 <label
                   htmlFor="acc-tz"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Fuso horário
                 </label>
@@ -233,7 +240,7 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
                   onChange={(e) =>
                     setSettings((s) => ({ ...s, timezone: e.target.value }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none"
+                  className={INPUT_CLASS}
                 >
                   <option value="America/Sao_Paulo">Brasília (GMT-3)</option>
                   <option value="America/Manaus">Manaus (GMT-4)</option>
@@ -242,11 +249,11 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
               </div>
 
               <div>
-                <label className="mb-1.5 block text-[12px] font-medium text-foreground">
+                <label className="mb-1.5 block text-[13px] font-medium text-foreground">
                   Ambiente atual
                 </label>
-                <div className="flex h-[38px] items-center rounded-lg border border-border bg-surface-muted/50 px-3 text-[12px] font-medium text-foreground-secondary">
-                  Módulo 1 · Fundação (Demo)
+                <div className="flex h-[38px] items-center rounded-[6px] border border-border bg-surface-muted/50 px-3 font-mono text-[11px] text-foreground-secondary">
+                  MÓDULO 01 · DEMO
                 </div>
               </div>
             </div>
@@ -255,8 +262,8 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
               <Button type="submit" variant="primary">
                 {savedNotice ? (
                   <>
-                    <Check className="h-4 w-4 text-emerald-400" aria-hidden="true" />
-                    <span>Preferências salvas (demo local)</span>
+                    <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>Preferências salvas (demo)</span>
                   </>
                 ) : (
                   <span>Salvar preferências</span>
@@ -267,11 +274,13 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
         </Card>
       </div>
 
-      {/* Estrutura preparada para futuras integrações */}
       <Card>
         <CardHeader>
           <div>
-            <CardTitle>Integrações futuras</CardTitle>
+            <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+              03 / ROADMAP DE INTEGRAÇÕES
+            </span>
+            <CardTitle className="mt-1">Integrações futuras</CardTitle>
             <CardDescription>
               Conexões planejadas na arquitetura modular do Pulsa (não ativas neste módulo)
             </CardDescription>
@@ -284,26 +293,26 @@ export function SettingsForm({ initial }: { initial: WorkspaceSettings }) {
               return (
                 <div
                   key={item.name}
-                  className="flex flex-col justify-between rounded-xl border border-border bg-surface-muted/35 p-4"
+                  className="flex flex-col justify-between rounded-[6px] border border-border bg-surface p-4"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-surface text-foreground-secondary">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-surface-muted text-foreground">
                         <Icon className="h-4 w-4" aria-hidden="true" />
                       </span>
-                      <span className="rounded-full bg-surface px-2.5 py-0.5 text-[11px] font-medium text-foreground-muted ring-1 ring-border">
+                      <span className="rounded-[4px] border border-border bg-surface-muted px-2 py-0.5 font-mono text-[10px] font-medium text-foreground-muted">
                         {item.module}
                       </span>
                     </div>
-                    <h3 className="mt-3 text-[13px] font-semibold text-foreground">
+                    <h3 className="mt-3 text-[14px] font-semibold tracking-[-0.01em] text-foreground">
                       {item.name}
                     </h3>
-                    <p className="mt-1 text-[12px] leading-relaxed text-foreground-secondary">
+                    <p className="mt-1 text-[13px] leading-relaxed text-foreground-secondary">
                       {item.description}
                     </p>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-border/60 text-[11px] font-medium text-foreground-muted">
-                    Estrutura preparada · Em breve
+                  <div className="mt-4 border-t border-border pt-3 font-mono text-[11px] text-foreground-muted">
+                    ESTRUTURA PREPARADA · EM BREVE
                   </div>
                 </div>
               );

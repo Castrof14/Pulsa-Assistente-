@@ -20,6 +20,9 @@ const SEGMENTS = [
   "Serviços Profissionais",
 ];
 
+const INPUT_CLASS =
+  "w-full rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] text-foreground placeholder:text-foreground-muted focus:border-foreground focus:outline-none";
+
 export function BusinessForm({ initial }: { initial: BusinessProfile }) {
   const [profile, setProfile] = useState<BusinessProfile>(initial);
   const [newProductName, setNewProductName] = useState("");
@@ -60,13 +63,15 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
   return (
     <form onSubmit={handleSave} className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <div className="space-y-6 lg:col-span-8">
-        {/* Informações básicas */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Informações básicas do negócio</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                01 / DADOS DO NEGÓCIO
+              </span>
+              <CardTitle className="mt-1">Informações básicas</CardTitle>
               <CardDescription>
-                Dados principais utilizados para contextualizar legendas e roteiros
+                Contexto principal utilizado para estruturar legendas e roteiros
               </CardDescription>
             </div>
           </CardHeader>
@@ -75,7 +80,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
               <div>
                 <label
                   htmlFor="biz-name"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Nome da empresa
                 </label>
@@ -86,14 +91,14 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                   onChange={(e) =>
                     setProfile((p) => ({ ...p, name: e.target.value }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={INPUT_CLASS}
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="biz-handle"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Perfil do Instagram
                 </label>
@@ -104,7 +109,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                   onChange={(e) =>
                     setProfile((p) => ({ ...p, instagramHandle: e.target.value }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={`${INPUT_CLASS} font-mono`}
                 />
               </div>
             </div>
@@ -113,7 +118,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
               <div>
                 <label
                   htmlFor="biz-segment"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Segmento
                 </label>
@@ -123,7 +128,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                   onChange={(e) =>
                     setProfile((p) => ({ ...p, segment: e.target.value }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={INPUT_CLASS}
                 >
                   {SEGMENTS.map((seg) => (
                     <option key={seg} value={seg}>
@@ -136,7 +141,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
               <div>
                 <label
                   htmlFor="biz-city"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Cidade / Região
                 </label>
@@ -147,7 +152,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                   onChange={(e) =>
                     setProfile((p) => ({ ...p, city: e.target.value }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={INPUT_CLASS}
                 />
               </div>
             </div>
@@ -155,7 +160,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
             <div>
               <label
                 htmlFor="biz-desc"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Descrição do negócio
               </label>
@@ -166,24 +171,26 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                 onChange={(e) =>
                   setProfile((p) => ({ ...p, description: e.target.value }))
                 }
-                className="w-full resize-none rounded-lg border border-border bg-surface px-3 py-2 text-[13px] leading-relaxed text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                className={`${INPUT_CLASS} resize-none leading-relaxed`}
               />
             </div>
           </CardContent>
         </Card>
 
-        {/* Produtos e serviços */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Produtos e serviços</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                02 / CATÁLOGO
+              </span>
+              <CardTitle className="mt-1">Produtos e serviços</CardTitle>
               <CardDescription>
                 Principais ofertas que devem aparecer no planejamento de conteúdo
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="divide-y divide-border/70 rounded-xl border border-border">
+            <div className="divide-y divide-border rounded-[6px] border border-border">
               {profile.products.map((item) => (
                 <div
                   key={item.id}
@@ -191,21 +198,21 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                 >
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[13px] font-medium text-foreground">
+                      <span className="text-[14px] font-medium text-foreground">
                         {item.name}
                       </span>
-                      <span className="rounded bg-surface-muted px-2 py-0.5 text-[11px] font-medium text-foreground-secondary">
+                      <span className="rounded-[4px] border border-border bg-surface-muted px-2 py-0.5 font-mono text-[10px] uppercase text-foreground-secondary">
                         {item.category}
                       </span>
                     </div>
-                    <p className="mt-0.5 text-[12px] text-foreground-muted">
+                    <p className="mt-0.5 text-[12px] text-foreground-secondary">
                       {item.highlight}
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => removeProduct(item.id)}
-                    className="rounded-md p-1.5 text-foreground-muted hover:bg-surface-muted hover:text-brand cursor-pointer"
+                    className="rounded-[6px] p-1.5 text-foreground-muted hover:bg-surface-muted hover:text-foreground cursor-pointer"
                     aria-label={`Remover ${item.name}`}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -214,32 +221,32 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-2.5 rounded-xl border border-dashed border-border-strong bg-surface-muted/40 p-3.5 sm:grid-cols-12">
+            <div className="grid grid-cols-1 gap-2.5 rounded-[6px] border border-dashed border-border-strong bg-surface-muted/40 p-3 sm:grid-cols-12">
               <input
                 type="text"
                 value={newProductName}
                 onChange={(e) => setNewProductName(e.target.value)}
                 placeholder="Nome do produto ou serviço"
-                className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground sm:col-span-4 focus:border-brand focus:outline-none"
+                className="rounded-[6px] border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground sm:col-span-4 focus:border-foreground focus:outline-none"
               />
               <input
                 type="text"
                 value={newProductCategory}
                 onChange={(e) => setNewProductCategory(e.target.value)}
                 placeholder="Categoria"
-                className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground sm:col-span-3 focus:border-brand focus:outline-none"
+                className="rounded-[6px] border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground sm:col-span-3 focus:border-foreground focus:outline-none"
               />
               <input
                 type="text"
                 value={newProductHighlight}
                 onChange={(e) => setNewProductHighlight(e.target.value)}
                 placeholder="Diferencial"
-                className="rounded-lg border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground sm:col-span-3 focus:border-brand focus:outline-none"
+                className="rounded-[6px] border border-border bg-surface px-3 py-1.5 text-[13px] text-foreground sm:col-span-3 focus:border-foreground focus:outline-none"
               />
               <Button
                 variant="secondary"
                 onClick={addProduct}
-                className="sm:col-span-2 px-2.5 py-1.5"
+                className="sm:col-span-2"
               >
                 <Plus className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Adicionar</span>
@@ -248,13 +255,15 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
           </CardContent>
         </Card>
 
-        {/* Público-alvo */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Público-alvo</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                03 / AUDIÊNCIA
+              </span>
+              <CardTitle className="mt-1">Público-alvo</CardTitle>
               <CardDescription>
-                Quem o seu conteúdo precisa atrair e convencer no Instagram
+                Perfil do público que o conteúdo precisa atrair no Instagram
               </CardDescription>
             </div>
           </CardHeader>
@@ -263,7 +272,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
               <div>
                 <label
                   htmlFor="aud-age"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Faixa etária principal
                 </label>
@@ -277,14 +286,14 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                       targetAudience: { ...p.targetAudience, ageRange: e.target.value },
                     }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={INPUT_CLASS}
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="aud-interests"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Interesses
                 </label>
@@ -298,7 +307,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                       targetAudience: { ...p.targetAudience, interests: e.target.value },
                     }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  className={INPUT_CLASS}
                 />
               </div>
             </div>
@@ -306,7 +315,7 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
             <div>
               <label
                 htmlFor="aud-pains"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Dores, dúvidas e objetivos
               </label>
@@ -320,41 +329,43 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
                     targetAudience: { ...p.targetAudience, painPoints: e.target.value },
                   }))
                 }
-                className="w-full resize-none rounded-lg border border-border bg-surface px-3 py-2 text-[13px] leading-relaxed text-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                className={`${INPUT_CLASS} resize-none leading-relaxed`}
               />
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Resumo lateral */}
       <div className="lg:col-span-4">
         <Card className="sticky top-20">
           <CardHeader>
             <div>
-              <CardTitle>Resumo do negócio</CardTitle>
-              <CardDescription>Contexto ativo para geração de pautas</CardDescription>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                RESUMO ATIVO
+              </span>
+              <CardTitle className="mt-1">Contexto da empresa</CardTitle>
+              <CardDescription>Base para geração de pautas</CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="rounded-lg border border-border bg-surface-muted/50 p-3.5 text-[12px] leading-relaxed text-foreground-secondary">
+            <div className="rounded-[6px] border border-border bg-surface-muted/50 p-3.5 text-[13px] leading-relaxed text-foreground-secondary">
               <p className="font-semibold text-foreground">{profile.name}</p>
-              <p className="text-foreground-muted">
+              <p className="font-mono text-[11px] text-foreground-muted">
                 {profile.segment} · {profile.city}
               </p>
               <p className="mt-2">{profile.description}</p>
             </div>
 
-            <div className="space-y-1.5 text-[12px]">
+            <div className="space-y-2 border-t border-border pt-3 text-[13px]">
               <div className="flex justify-between">
-                <span className="text-foreground-muted">Ofertas cadastradas</span>
-                <span className="font-semibold text-foreground tabular-nums">
+                <span className="text-foreground-secondary">Ofertas cadastradas</span>
+                <span className="font-mono font-medium text-foreground tabular-nums">
                   {profile.products.length}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-foreground-muted">Público</span>
-                <span className="font-medium text-foreground">
+                <span className="text-foreground-secondary">Público</span>
+                <span className="font-mono text-[12px] text-foreground">
                   {profile.targetAudience.ageRange}
                 </span>
               </div>
@@ -363,8 +374,8 @@ export function BusinessForm({ initial }: { initial: BusinessProfile }) {
             <Button type="submit" variant="primary" className="w-full">
               {savedNotice ? (
                 <>
-                  <Check className="h-4 w-4 text-emerald-400" aria-hidden="true" />
-                  <span>Alterações salvas (demo local)</span>
+                  <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>Alterações salvas (demo)</span>
                 </>
               ) : (
                 <span>Salvar informações</span>

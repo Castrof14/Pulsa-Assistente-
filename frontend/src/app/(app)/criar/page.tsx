@@ -12,6 +12,7 @@ export default function CriarPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="ESTÚDIO DE CONTEÚDO"
         title="Criar conteúdo"
         description="Estruture uma nova publicação para o Instagram e visualize a prévia demonstrativa."
       />

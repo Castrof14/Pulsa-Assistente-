@@ -29,13 +29,13 @@ const MONTH_NAMES = [
   "Dezembro",
 ];
 
-const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const WEEKDAYS = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
 
 const STATUS_DOT: Record<PostStatus, string> = {
-  agendado: "bg-emerald-500",
-  aprovacao: "bg-amber-500",
-  rascunho: "bg-zinc-400",
-  publicado: "bg-sky-500",
+  agendado: "bg-[var(--link)]",
+  aprovacao: "bg-[var(--warning)]",
+  rascunho: "bg-foreground-muted",
+  publicado: "bg-foreground",
 };
 
 const FILTERS: { id: "todos" | PostStatus; label: string }[] = [
@@ -56,9 +56,8 @@ function formatDatePt(iso: string): string {
 }
 
 export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
-  // Mês inicial fixo (Novembro 2026) para compatibilidade com cacheComponents (SSR determinístico)
   const [year, setYear] = useState(2026);
-  const [month, setMonth] = useState(10); // 0-indexed: 10 = Novembro
+  const [month, setMonth] = useState(10);
   const [statusFilter, setStatusFilter] = useState<"todos" | PostStatus>("todos");
   const [selectedPost, setSelectedPost] = useState<ContentPost | null>(
     posts[0] ?? null,
@@ -86,7 +85,6 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
     return map;
   }, [monthPosts]);
 
-  // Cálculos de calendário puramente numéricos (sem new Date() no SSR)
   const firstWeekday = new Date(Date.UTC(year, month, 1)).getUTCDay();
   const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
 
@@ -117,25 +115,24 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
   }
 
   return (
-    <div className="space-y-5">
-      {/* Barra de controles */}
+    <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={prevMonth}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-surface text-foreground-secondary hover:bg-surface-muted cursor-pointer"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-surface text-foreground-secondary hover:bg-surface-muted cursor-pointer"
             aria-label="Mês anterior"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <div className="min-w-[160px] text-center text-[14px] font-semibold text-foreground">
+          <div className="min-w-[160px] text-center text-[14px] font-semibold tracking-[-0.02em] text-foreground">
             {MONTH_NAMES[month]} {year}
           </div>
           <button
             type="button"
             onClick={nextMonth}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-surface text-foreground-secondary hover:bg-surface-muted cursor-pointer"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-surface text-foreground-secondary hover:bg-surface-muted cursor-pointer"
             aria-label="Próximo mês"
           >
             <ChevronRight className="h-4 w-4" />
@@ -150,9 +147,9 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
                 key={f.id}
                 type="button"
                 onClick={() => setStatusFilter(f.id)}
-                className={`rounded-full px-3 py-1 text-[12px] font-medium transition-colors cursor-pointer ${
+                className={`rounded-[6px] px-3 py-1 text-[12px] font-medium transition-colors cursor-pointer ${
                   active
-                    ? "bg-foreground text-surface"
+                    ? "bg-primary text-on-primary"
                     : "border border-border bg-surface text-foreground-secondary hover:bg-surface-muted"
                 }`}
               >
@@ -169,19 +166,19 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
           {WEEKDAYS.map((day) => (
             <div
               key={day}
-              className="px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-foreground-muted"
+              className="px-3 py-2.5 font-mono text-[11px] font-medium tracking-[0.04em] text-foreground-muted"
             >
               {day}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 divide-x divide-y divide-border/70">
+        <div className="grid grid-cols-7 divide-x divide-y divide-border">
           {cells.map((day, idx) => {
             if (day === null) {
               return (
                 <div
                   key={`empty-${idx}`}
-                  className="min-h-[112px] bg-surface-muted/20"
+                  className="min-h-[112px] bg-surface-muted/30"
                 />
               );
             }
@@ -191,8 +188,8 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
             return (
               <div key={iso} className="min-h-[112px] p-2">
                 <div className="mb-1.5 flex items-center justify-between">
-                  <span className="text-[12px] font-medium text-foreground-secondary tabular-nums">
-                    {day}
+                  <span className="font-mono text-[11px] font-medium text-foreground-muted tabular-nums">
+                    {pad2(day)}
                   </span>
                 </div>
                 <div className="space-y-1.5">
@@ -203,10 +200,10 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
                         key={post.id}
                         type="button"
                         onClick={() => setSelectedPost(post)}
-                        className={`w-full rounded-md border px-2 py-1.5 text-left transition-all cursor-pointer ${
+                        className={`w-full rounded-[6px] border px-2 py-1.5 text-left transition-colors cursor-pointer ${
                           isSelected
-                            ? "border-brand bg-brand-soft/60"
-                            : "border-border bg-surface hover:bg-surface-muted/70"
+                            ? "border-foreground bg-surface-muted"
+                            : "border-border bg-surface hover:bg-surface-muted/60"
                         }`}
                       >
                         <div className="flex items-center gap-1.5">
@@ -214,7 +211,7 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
                             className={`h-1.5 w-1.5 shrink-0 rounded-full ${STATUS_DOT[post.status]}`}
                             aria-hidden="true"
                           />
-                          <span className="text-[10px] font-medium text-foreground-muted tabular-nums">
+                          <span className="font-mono text-[10px] text-foreground-muted tabular-nums">
                             {post.time}
                           </span>
                         </div>
@@ -249,13 +246,13 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
             >
               <Card
                 className={`p-4 transition-colors ${
-                  selectedPost?.id === post.id ? "ring-1 ring-brand" : ""
+                  selectedPost?.id === post.id ? "border-foreground" : ""
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <PostFormatBadge format={post.format} />
-                    <span className="text-[12px] font-medium text-foreground-muted tabular-nums">
+                    <span className="font-mono text-[11px] text-foreground-muted tabular-nums">
                       {formatDatePt(post.date)} · {post.time}
                     </span>
                   </div>
@@ -270,7 +267,7 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
         )}
       </div>
 
-      {/* Painel de detalhes da publicação selecionada */}
+      {/* Painel de detalhes */}
       {selectedPost && (
         <Card>
           <CardHeader>
@@ -278,12 +275,12 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
               <div className="flex flex-wrap items-center gap-2">
                 <PostFormatBadge format={selectedPost.format} />
                 <PostStatusBadge status={selectedPost.status} />
-                <span className="inline-flex items-center gap-1 text-[12px] text-foreground-muted tabular-nums">
+                <span className="inline-flex items-center gap-1 font-mono text-[11px] text-foreground-muted tabular-nums">
                   <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-                  {formatDatePt(selectedPost.date)} às {selectedPost.time}
+                  {formatDatePt(selectedPost.date)} · {selectedPost.time}
                 </span>
               </div>
-              <CardTitle className="pt-1 text-[15px]">{selectedPost.title}</CardTitle>
+              <CardTitle className="pt-1 text-[16px]">{selectedPost.title}</CardTitle>
               <CardDescription>{selectedPost.objective}</CardDescription>
             </div>
             <Link href="/criar" className={buttonClasses("secondary")}>
@@ -292,16 +289,16 @@ export function CalendarBoard({ posts }: { posts: ContentPost[] }) {
             </Link>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div className="rounded-lg border border-border bg-surface-muted/40 p-4 text-[13px] leading-relaxed text-foreground-secondary whitespace-pre-line">
+            <div className="rounded-[6px] border border-border bg-surface-muted/40 p-4 text-[13px] leading-relaxed text-foreground-secondary whitespace-pre-line">
               {selectedPost.caption}
             </div>
             <div className="flex flex-wrap items-center justify-between gap-2 text-[12px]">
-              <span className="font-medium text-brand">
+              <span className="font-mono text-[11px] text-[var(--link)]">
                 {selectedPost.hashtags.join(" ")}
               </span>
               {selectedPost.estimatedReach && (
-                <span className="text-foreground-muted tabular-nums">
-                  Alcance estimado (demo): {selectedPost.estimatedReach}
+                <span className="font-mono text-[11px] text-foreground-muted tabular-nums">
+                  ALCANCE ESTIMADO (DEMO): {selectedPost.estimatedReach}
                 </span>
               )}
             </div>

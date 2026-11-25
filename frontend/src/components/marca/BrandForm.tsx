@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Sparkles } from "lucide-react";
+import { Check } from "lucide-react";
 import type { BrandProfile, BusinessProfile, TonePreset } from "@/types/pulsa";
 import {
   Card,
@@ -35,12 +35,13 @@ const TONE_OPTIONS: { id: TonePreset; title: string; desc: string }[] = [
   },
 ];
 
-interface BrandFormProps {
+export function BrandForm({
+  initial,
+  business,
+}: {
   initial: BrandProfile;
   business: Pick<BusinessProfile, "name" | "instagramHandle">;
-}
-
-export function BrandForm({ initial, business }: BrandFormProps) {
+}) {
   const [brand, setBrand] = useState<BrandProfile>(initial);
   const [savedNotice, setSavedNotice] = useState(false);
 
@@ -53,11 +54,13 @@ export function BrandForm({ initial, business }: BrandFormProps) {
   return (
     <form onSubmit={handleSave} className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <div className="space-y-6 lg:col-span-8">
-        {/* Tom de comunicação */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Tom de comunicação</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                01 / VOZ DA MARCA
+              </span>
+              <CardTitle className="mt-1">Tom de comunicação</CardTitle>
               <CardDescription>
                 Define como o Pulsa escreve legendas, ganchos e chamadas para ação
               </CardDescription>
@@ -72,10 +75,10 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                     key={opt.id}
                     type="button"
                     onClick={() => setBrand((b) => ({ ...b, tone: opt.id }))}
-                    className={`rounded-xl border p-4 text-left transition-all cursor-pointer ${
+                    className={`rounded-[6px] border p-4 text-left transition-colors cursor-pointer ${
                       active
-                        ? "border-brand bg-brand-soft/60 ring-1 ring-brand/30"
-                        : "border-border bg-surface hover:bg-surface-muted/60"
+                        ? "border-foreground bg-surface-muted"
+                        : "border-border bg-surface hover:bg-surface-muted/50"
                     }`}
                   >
                     <div className="text-[13px] font-semibold text-foreground">
@@ -91,7 +94,7 @@ export function BrandForm({ initial, business }: BrandFormProps) {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-[12px] font-medium text-foreground">
+                <label className="mb-1.5 block text-[13px] font-medium text-foreground">
                   Uso de emojis
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -100,9 +103,9 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                       key={level}
                       type="button"
                       onClick={() => setBrand((b) => ({ ...b, emojiUsage: level }))}
-                      className={`rounded-lg border px-2.5 py-1.5 text-[12px] font-medium capitalize cursor-pointer ${
+                      className={`rounded-[6px] border px-2.5 py-1.5 text-[12px] font-medium capitalize cursor-pointer ${
                         brand.emojiUsage === level
-                          ? "border-foreground bg-foreground text-surface"
+                          ? "border-primary bg-primary text-on-primary"
                           : "border-border bg-surface text-foreground-secondary hover:bg-surface-muted"
                       }`}
                     >
@@ -113,7 +116,7 @@ export function BrandForm({ initial, business }: BrandFormProps) {
               </div>
 
               <div>
-                <label className="mb-1.5 block text-[12px] font-medium text-foreground">
+                <label className="mb-1.5 block text-[13px] font-medium text-foreground">
                   Nível de formalidade
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -122,9 +125,9 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                       key={level}
                       type="button"
                       onClick={() => setBrand((b) => ({ ...b, formality: level }))}
-                      className={`rounded-lg border px-2.5 py-1.5 text-[12px] font-medium capitalize cursor-pointer ${
+                      className={`rounded-[6px] border px-2.5 py-1.5 text-[12px] font-medium capitalize cursor-pointer ${
                         brand.formality === level
-                          ? "border-foreground bg-foreground text-surface"
+                          ? "border-primary bg-primary text-on-primary"
                           : "border-border bg-surface text-foreground-secondary hover:bg-surface-muted"
                       }`}
                     >
@@ -137,11 +140,13 @@ export function BrandForm({ initial, business }: BrandFormProps) {
           </CardContent>
         </Card>
 
-        {/* Paleta de cores & Identidade visual */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Paleta de cores e logotipo</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                02 / SISTEMA VISUAL
+              </span>
+              <CardTitle className="mt-1">Paleta de cores e logotipo</CardTitle>
               <CardDescription>
                 Cores e assinatura visual aplicadas nas prévias e modelos de publicação
               </CardDescription>
@@ -159,10 +164,10 @@ export function BrandForm({ initial, business }: BrandFormProps) {
               ).map((swatch) => (
                 <div
                   key={swatch.key}
-                  className="rounded-xl border border-border bg-surface p-3"
+                  className="rounded-[6px] border border-border bg-surface p-3"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-medium text-foreground-secondary">
+                    <span className="text-[12px] font-medium text-foreground-secondary">
                       {swatch.label}
                     </span>
                     <input
@@ -175,11 +180,11 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                           colors: { ...b.colors, [swatch.key]: e.target.value },
                         }))
                       }
-                      className="h-6 w-6 cursor-pointer rounded border-0 bg-transparent p-0"
+                      className="h-5 w-5 cursor-pointer rounded border-0 bg-transparent p-0"
                     />
                   </div>
                   <div
-                    className="mt-2.5 h-10 w-full rounded-lg border border-black/10"
+                    className="mt-2.5 h-9 w-full rounded-[4px] border border-black/10"
                     style={{ backgroundColor: brand.colors[swatch.key] }}
                   />
                   <input
@@ -201,7 +206,7 @@ export function BrandForm({ initial, business }: BrandFormProps) {
               <div>
                 <label
                   htmlFor="logo-initials"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Iniciais / Monograma do logotipo
                 </label>
@@ -216,14 +221,14 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                       logoInitials: e.target.value.toUpperCase(),
                     }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] font-semibold text-foreground focus:border-brand focus:outline-none"
+                  className="w-full rounded-[6px] border border-border bg-surface px-3 py-2 font-mono text-[14px] font-semibold text-foreground focus:border-foreground focus:outline-none"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="logo-style"
-                  className="mb-1.5 block text-[12px] font-medium text-foreground"
+                  className="mb-1.5 block text-[13px] font-medium text-foreground"
                 >
                   Estilo do emblema
                 </label>
@@ -236,7 +241,7 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                       logoStyle: e.target.value as BrandProfile["logoStyle"],
                     }))
                   }
-                  className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none"
+                  className="w-full rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] text-foreground focus:border-foreground focus:outline-none"
                 >
                   <option value="monogram">Monograma circular</option>
                   <option value="minimal">Minimalista quadrado</option>
@@ -248,7 +253,7 @@ export function BrandForm({ initial, business }: BrandFormProps) {
             <div>
               <label
                 htmlFor="visual-notes"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Direção de identidade visual
               </label>
@@ -259,33 +264,35 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                 onChange={(e) =>
                   setBrand((b) => ({ ...b, visualStyleNotes: e.target.value }))
                 }
-                className="w-full resize-none rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground focus:border-brand focus:outline-none"
+                className="w-full resize-none rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] text-foreground focus:border-foreground focus:outline-none"
               />
             </div>
           </CardContent>
         </Card>
 
-        {/* Orientações para a IA */}
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>Orientações para a IA</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                03 / DIRETRIZES DE IA
+              </span>
+              <CardTitle className="mt-1">Orientações para a IA</CardTitle>
               <CardDescription>
-                Regras editoriais que serão enviadas ao assistente nos próximos módulos
+                Regras editoriais aplicadas ao assistente nos próximos módulos
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-border bg-surface-muted/40 p-3.5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+              <div className="rounded-[6px] border border-border bg-surface-muted/40 p-3.5">
+                <span className="font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-foreground">
                   Expressões recomendadas
                 </span>
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {brand.aiGuidelines.doUse.map((term) => (
                     <span
                       key={term}
-                      className="rounded-full bg-surface px-2.5 py-1 text-[11px] font-medium text-foreground ring-1 ring-border"
+                      className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-[12px] text-foreground"
                     >
                       {term}
                     </span>
@@ -293,15 +300,15 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-border bg-surface-muted/40 p-3.5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-brand">
+              <div className="rounded-[6px] border border-border bg-surface-muted/40 p-3.5">
+                <span className="font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-foreground-muted">
                   Evitar nos textos
                 </span>
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {brand.aiGuidelines.avoid.map((term) => (
                     <span
                       key={term}
-                      className="rounded-full bg-surface px-2.5 py-1 text-[11px] font-medium text-foreground ring-1 ring-border"
+                      className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-[12px] text-foreground-secondary"
                     >
                       {term}
                     </span>
@@ -313,7 +320,7 @@ export function BrandForm({ initial, business }: BrandFormProps) {
             <div>
               <label
                 htmlFor="ai-extra"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Instruções adicionais
               </label>
@@ -330,25 +337,27 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                     },
                   }))
                 }
-                className="w-full resize-none rounded-lg border border-border bg-surface px-3 py-2 text-[13px] leading-relaxed text-foreground focus:border-brand focus:outline-none"
+                className="w-full resize-none rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] leading-relaxed text-foreground focus:border-foreground focus:outline-none"
               />
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Prévia da marca */}
       <div className="lg:col-span-4">
         <Card className="sticky top-20">
           <CardHeader>
             <div>
-              <CardTitle>Cartão de identidade</CardTitle>
-              <CardDescription>Prévia ao vivo do perfil da marca</CardDescription>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                PRÉVIA AO VIVO
+              </span>
+              <CardTitle className="mt-1">Cartão de identidade</CardTitle>
+              <CardDescription>Perfil visual da marca</CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div
-              className="rounded-xl border border-black/10 p-5"
+              className="rounded-[8px] border border-border p-5"
               style={{
                 backgroundColor: brand.colors.surface,
                 color: brand.colors.secondary,
@@ -356,12 +365,12 @@ export function BrandForm({ initial, business }: BrandFormProps) {
             >
               <div className="flex items-center gap-3">
                 <div
-                  className={`flex h-12 w-12 items-center justify-center text-[15px] font-bold text-white shadow-sm ${
+                  className={`flex h-11 w-11 items-center justify-center text-[14px] font-bold text-white ${
                     brand.logoStyle === "monogram"
                       ? "rounded-full"
                       : brand.logoStyle === "minimal"
-                        ? "rounded-xl"
-                        : "rounded-md rotate-3"
+                        ? "rounded-[6px]"
+                        : "rounded-[4px] rotate-3"
                   }`}
                   style={{ backgroundColor: brand.colors.primary }}
                 >
@@ -371,7 +380,9 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                   <p className="text-[14px] font-semibold text-zinc-900">
                     {business.name}
                   </p>
-                  <p className="text-[11px] text-zinc-600">{business.instagramHandle}</p>
+                  <p className="font-mono text-[11px] text-zinc-600">
+                    {business.instagramHandle}
+                  </p>
                 </div>
               </div>
 
@@ -379,14 +390,13 @@ export function BrandForm({ initial, business }: BrandFormProps) {
                 {Object.values(brand.colors).map((hex, idx) => (
                   <span
                     key={`${hex}-${idx}`}
-                    className="h-3 flex-1 rounded-full border border-black/10"
+                    className="h-2.5 flex-1 rounded-full border border-black/10"
                     style={{ backgroundColor: hex }}
                   />
                 ))}
               </div>
 
               <p className="mt-3 text-[12px] leading-relaxed text-zinc-700">
-                <Sparkles className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" />
                 Tom <strong>{brand.tone}</strong>, emojis{" "}
                 <strong>{brand.emojiUsage}</strong> e comunicação{" "}
                 <strong>{brand.formality}</strong>.
@@ -396,8 +406,8 @@ export function BrandForm({ initial, business }: BrandFormProps) {
             <Button type="submit" variant="primary" className="w-full">
               {savedNotice ? (
                 <>
-                  <Check className="h-4 w-4 text-emerald-400" aria-hidden="true" />
-                  <span>Perfil salvo (demo local)</span>
+                  <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>Perfil salvo (demo)</span>
                 </>
               ) : (
                 <span>Salvar perfil da marca</span>

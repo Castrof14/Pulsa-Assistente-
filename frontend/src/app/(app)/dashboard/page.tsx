@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  CalendarDays,
-  CheckCircle2,
-  Clock,
-  Layers,
-  PenLine,
-  TrendingUp,
-} from "lucide-react";
+import { ArrowUpRight, CalendarDays, CheckCircle2, PenLine } from "lucide-react";
 import { getBusinessProfile, getDashboardSummary, getUpcomingPosts } from "@/services/pulsa";
 import { PageHeader } from "@/components/ui/PageHeader";
 import {
@@ -38,98 +30,87 @@ export default function DashboardPage() {
     {
       label: "Agendadas",
       count: summary.scheduledCount,
-      bar: "bg-emerald-500",
+      bar: "bg-[var(--link)]",
     },
     {
       label: "Aguardando aprovação",
       count: summary.pendingApprovalCount,
-      bar: "bg-amber-500",
+      bar: "bg-[var(--warning)]",
     },
     {
       label: "Publicadas",
       count: summary.publishedCount,
-      bar: "bg-sky-500",
+      bar: "bg-foreground",
     },
     {
       label: "Rascunhos",
       count: summary.draftCount,
-      bar: "bg-zinc-400",
+      bar: "bg-border-strong",
     },
   ];
 
   const kpis = [
     {
-      label: "Publicações no mês",
+      eyebrow: "PUBLICAÇÕES",
       value: summary.totalPostsMonth,
       helper: summary.monthLabel,
-      icon: Layers,
     },
     {
-      label: "Agendadas",
+      eyebrow: "AGENDADAS",
       value: summary.scheduledCount,
-      helper: "Prontas para ir ao ar",
-      icon: CalendarDays,
+      helper: "Prontas para publicar",
     },
     {
-      label: "Aguardando aprovação",
+      eyebrow: "APROVAÇÃO",
       value: summary.pendingApprovalCount,
       helper: "Revisão pendente",
-      icon: Clock,
     },
     {
-      label: "Consistência",
+      eyebrow: "CONSISTÊNCIA",
       value: `${summary.consistencyScore}%`,
       helper: "Semanas com publicação",
-      icon: TrendingUp,
     },
   ];
 
   return (
     <div className="space-y-6">
       <PageHeader
+        eyebrow="WORKSPACE / VISÃO GERAL"
         title="Visão geral"
-        description={`Acompanhe o ritmo editorial de ${business.name} em ${summary.monthLabel}.`}
+        description={`Ritmo editorial de ${business.name} em ${summary.monthLabel}.`}
         actions={
           <>
             <Link href="/calendario" className={buttonClasses("secondary")}>
-              <CalendarDays className="h-4 w-4" aria-hidden="true" />
+              <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Ver calendário</span>
             </Link>
-            <Link href="/criar" className={buttonClasses("brand")}>
-              <PenLine className="h-4 w-4" aria-hidden="true" />
+            <Link href="/criar" className={buttonClasses("primary")}>
+              <PenLine className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Novo conteúdo</span>
             </Link>
           </>
         }
       />
 
-      {/* KPIs */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {kpis.map((kpi) => {
-          const Icon = kpi.icon;
-          return (
-            <Card key={kpi.label} className="p-5">
-              <div className="flex items-center justify-between">
-                <span className="text-[12px] font-medium text-foreground-secondary">
-                  {kpi.label}
-                </span>
-                <span className="flex h-7 w-7 items-center justify-center rounded-md bg-surface-muted text-foreground-muted">
-                  <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-                </span>
-              </div>
-              <div className="mt-3 flex items-baseline justify-between gap-2">
-                <span className="text-2xl font-semibold tracking-[-0.02em] text-foreground tabular-nums">
-                  {kpi.value}
-                </span>
-                <span className="text-[11px] text-foreground-muted">{kpi.helper}</span>
-              </div>
-            </Card>
-          );
-        })}
-      </div>
+      {/* Faixa de KPIs unificada por hairlines */}
+      <section className="grid grid-cols-1 divide-y divide-border overflow-hidden rounded-[12px] border border-border bg-surface shadow-[0_1px_1px_rgba(0,0,0,0.03)] sm:grid-cols-2 sm:divide-x xl:grid-cols-4 xl:divide-y-0">
+        {kpis.map((kpi) => (
+          <div key={kpi.eyebrow} className="p-6">
+            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-foreground-muted">
+              {kpi.eyebrow}
+            </span>
+            <div className="mt-3 flex items-baseline justify-between gap-2">
+              <span className="text-[32px] font-semibold leading-[40px] tracking-[-0.04em] text-foreground tabular-nums">
+                {kpi.value}
+              </span>
+              <span className="text-[12px] text-foreground-secondary">{kpi.helper}</span>
+            </div>
+          </div>
+        ))}
+      </section>
 
       {/* Atividade + Status */}
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>
             <div>
@@ -138,7 +119,7 @@ export default function DashboardPage() {
                 Distribuição semanal entre Feed, Carrossel, Reels e Stories
               </CardDescription>
             </div>
-            <span className="text-[11px] font-medium text-foreground-muted">
+            <span className="font-mono text-[11px] uppercase text-foreground-muted">
               {summary.monthLabel}
             </span>
           </CardHeader>
@@ -155,7 +136,7 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent className="space-y-5">
-            <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-surface-muted">
+            <div className="flex h-2 w-full overflow-hidden rounded-full bg-surface-muted">
               {statusBreakdown.map((item) => {
                 const pct = (item.count / Math.max(summary.totalPostsMonth, 1)) * 100;
                 return (
@@ -181,28 +162,26 @@ export default function DashboardPage() {
                   >
                     <div className="flex items-center gap-2 text-foreground-secondary">
                       <span
-                        className={`h-2 w-2 rounded-full ${item.bar}`}
+                        className={`h-2 w-2 rounded-[2px] ${item.bar}`}
                         aria-hidden="true"
                       />
                       <span>{item.label}</span>
                     </div>
-                    <div className="flex items-center gap-2 tabular-nums">
-                      <span className="font-semibold text-foreground">{item.count}</span>
-                      <span className="w-8 text-right text-[11px] text-foreground-muted">
-                        {pct}%
-                      </span>
+                    <div className="flex items-center gap-2 font-mono text-[12px] tabular-nums">
+                      <span className="font-medium text-foreground">{item.count}</span>
+                      <span className="w-8 text-right text-foreground-muted">{pct}%</span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="rounded-lg border border-border bg-surface-muted/50 p-3">
+            <div className="rounded-[6px] border border-border bg-surface-muted/60 p-3">
               <div className="flex items-center gap-2 text-[12px] font-medium text-foreground">
-                <CheckCircle2 className="h-4 w-4 text-emerald-500" aria-hidden="true" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-[var(--link)]" aria-hidden="true" />
                 <span>Aguardando sua revisão: {summary.pendingApprovalCount}</span>
               </div>
-              <p className="mt-1 text-[11px] text-foreground-secondary">
+              <p className="mt-1 text-[12px] text-foreground-secondary">
                 Confira horários e legendas no calendário antes da publicação.
               </p>
             </div>
@@ -221,29 +200,29 @@ export default function DashboardPage() {
           </div>
           <Link
             href="/calendario"
-            className="inline-flex items-center gap-1 text-[12px] font-medium text-foreground-secondary hover:text-foreground"
+            className="inline-flex items-center gap-1 text-[13px] font-medium text-[var(--link)] hover:underline"
           >
             <span>Abrir calendário</span>
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
         </CardHeader>
-        <div className="divide-y divide-border/70">
+        <div className="divide-y divide-border">
           {upcoming.map((post) => (
             <div
               key={post.id}
-              className="flex flex-col gap-3 px-5 py-4 transition-colors hover:bg-surface-muted/35 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-3 px-6 py-4 transition-colors hover:bg-surface-muted/40 sm:flex-row sm:items-center sm:justify-between"
             >
               <div className="min-w-0 space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <PostFormatBadge format={post.format} />
-                  <span className="text-[12px] font-medium text-foreground-muted tabular-nums">
+                  <span className="font-mono text-[11px] text-foreground-muted tabular-nums">
                     {formatShortDate(post.date)} · {post.time}
                   </span>
                 </div>
                 <p className="truncate text-[14px] font-medium text-foreground">
                   {post.title}
                 </p>
-                <p className="line-clamp-1 text-[12px] text-foreground-secondary">
+                <p className="line-clamp-1 text-[13px] text-foreground-secondary">
                   {post.objective}
                 </p>
               </div>

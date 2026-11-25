@@ -14,11 +14,12 @@ export default function CalendarioPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="PLANEJAMENTO"
         title="Calendário editorial"
         description="Visualize a distribuição mensal das publicações, horários e status de aprovação."
         actions={
-          <Link href="/criar" className={buttonClasses("brand")}>
-            <PenLine className="h-4 w-4" aria-hidden="true" />
+          <Link href="/criar" className={buttonClasses("primary")}>
+            <PenLine className="h-3.5 w-3.5" aria-hidden="true" />
             <span>Novo conteúdo</span>
           </Link>
         }

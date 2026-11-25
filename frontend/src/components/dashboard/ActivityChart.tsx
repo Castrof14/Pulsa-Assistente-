@@ -5,9 +5,9 @@ import type { WeeklyActivityPoint } from "@/types/pulsa";
 
 const SERIES = [
   { key: "feed", label: "Feed", color: "bg-foreground" },
-  { key: "carrossel", label: "Carrossel", color: "bg-brand" },
-  { key: "reels", label: "Reels", color: "bg-amber-500" },
-  { key: "stories", label: "Stories", color: "bg-zinc-300 dark:bg-zinc-600" },
+  { key: "carrossel", label: "Carrossel", color: "bg-[var(--link)]" },
+  { key: "reels", label: "Reels", color: "bg-foreground-muted" },
+  { key: "stories", label: "Stories", color: "bg-border-strong" },
 ] as const;
 
 export function ActivityChart({ data }: { data: WeeklyActivityPoint[] }) {
@@ -24,24 +24,27 @@ export function ActivityChart({ data }: { data: WeeklyActivityPoint[] }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-4">
           {SERIES.map((item) => (
-            <div key={item.key} className="flex items-center gap-1.5 text-[11px] text-foreground-secondary">
-              <span className={`h-2 w-2 rounded-sm ${item.color}`} aria-hidden="true" />
+            <div
+              key={item.key}
+              className="flex items-center gap-1.5 text-[12px] text-foreground-secondary"
+            >
+              <span className={`h-2 w-2 rounded-[2px] ${item.color}`} aria-hidden="true" />
               <span>{item.label}</span>
             </div>
           ))}
         </div>
         {inspected && (
-          <div className="text-[11px] text-foreground-muted tabular-nums">
+          <div className="font-mono text-[11px] text-foreground-muted tabular-nums">
             <span className="font-medium text-foreground">{inspected.week}:</span>{" "}
             {inspected.feed + inspected.carrossel + inspected.reels + inspected.stories}{" "}
-            peças
+            PEÇAS
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-4 gap-3 pt-2 sm:gap-5">
+      <div className="grid grid-cols-4 gap-3 pt-1 sm:gap-4">
         {data.map((point) => {
           const total = point.feed + point.carrossel + point.reels + point.stories;
           const heightPct = Math.round((total / maxTotal) * 100);
@@ -56,12 +59,12 @@ export function ActivityChart({ data }: { data: WeeklyActivityPoint[] }) {
               onClick={() => setActiveWeek(point.week)}
               className="group flex flex-col items-center gap-2 text-left focus:outline-none cursor-pointer"
             >
-              <div className="flex h-36 w-full items-end justify-center rounded-lg bg-surface-muted/50 px-3 pt-4 pb-2 transition-colors group-hover:bg-surface-muted">
+              <div className="flex h-36 w-full items-end justify-center rounded-[6px] border border-border bg-surface-muted/40 px-3 pt-4 pb-2 transition-colors group-hover:bg-surface-muted">
                 <div
-                  className={`flex w-full max-w-[44px] flex-col-reverse overflow-hidden rounded-md transition-all duration-200 ${
-                    isSelected ? "ring-2 ring-brand/40 ring-offset-2 ring-offset-surface" : ""
+                  className={`flex w-full max-w-[40px] flex-col-reverse overflow-hidden rounded-[4px] transition-opacity ${
+                    isSelected ? "opacity-100" : "opacity-85 group-hover:opacity-100"
                   }`}
-                  style={{ height: `${Math.max(heightPct, 16)}%` }}
+                  style={{ height: `${Math.max(heightPct, 14)}%` }}
                 >
                   {SERIES.map((s) => {
                     const value = point[s.key];
@@ -70,7 +73,7 @@ export function ActivityChart({ data }: { data: WeeklyActivityPoint[] }) {
                     return (
                       <div
                         key={s.key}
-                        className={`${s.color} w-full transition-opacity`}
+                        className={`${s.color} w-full`}
                         style={{ height: `${segPct}%` }}
                         title={`${s.label}: ${value}`}
                       />
@@ -78,17 +81,15 @@ export function ActivityChart({ data }: { data: WeeklyActivityPoint[] }) {
                   })}
                 </div>
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 font-mono text-[11px]">
                 <span
-                  className={`text-[12px] font-medium ${
+                  className={`font-medium uppercase ${
                     isSelected ? "text-foreground" : "text-foreground-secondary"
                   }`}
                 >
                   {point.week}
                 </span>
-                <span className="text-[11px] text-foreground-muted tabular-nums">
-                  ({total})
-                </span>
+                <span className="text-foreground-muted tabular-nums">({total})</span>
               </div>
             </button>
           );

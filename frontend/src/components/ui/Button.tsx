@@ -1,19 +1,20 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "brand";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "pill";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "bg-foreground text-surface hover:opacity-90 shadow-[0_1px_2px_rgba(16,24,40,0.08)]",
-  brand:
-    "bg-brand text-brand-foreground hover:opacity-92 shadow-[0_1px_2px_rgba(224,62,82,0.22)]",
+    "rounded-[6px] bg-primary text-on-primary hover:opacity-90",
+  pill:
+    "rounded-full bg-primary text-on-primary hover:opacity-90 px-4",
   secondary:
-    "border border-border bg-surface text-foreground hover:bg-surface-muted",
-  ghost: "text-foreground-secondary hover:bg-surface-muted hover:text-foreground",
+    "rounded-[6px] border border-border bg-surface text-foreground hover:bg-surface-muted",
+  ghost:
+    "rounded-[6px] text-foreground-secondary hover:bg-surface-muted hover:text-foreground",
 };
 
 export function buttonClasses(variant: ButtonVariant = "secondary", className = "") {
-  return `inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-[13px] font-medium transition-all duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 cursor-pointer ${VARIANT_CLASSES[variant]} ${className}`;
+  return `inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-[13px] font-medium leading-5 transition-colors duration-150 disabled:pointer-events-none disabled:opacity-45 cursor-pointer ${VARIANT_CLASSES[variant]} ${className}`;
 }
 
 export function Button({

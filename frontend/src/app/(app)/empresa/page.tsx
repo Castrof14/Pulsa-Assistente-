@@ -11,6 +11,7 @@ export default function EmpresaPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="CONFIGURAÇÃO DE NEGÓCIO"
         title="Minha empresa"
         description="Mantenha os dados do seu negócio atualizados para que cada publicação reflita sua oferta e público."
       />

@@ -11,6 +11,7 @@ export default function ConfiguracoesPage() {
   return (
     <div>
       <PageHeader
+        eyebrow="SISTEMA & CONTA"
         title="Configurações"
         description="Ajuste preferências visuais, dados da conta e acompanhe as integrações previstas nos próximos módulos."
       />

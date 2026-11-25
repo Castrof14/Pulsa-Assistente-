@@ -4,53 +4,69 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f7f8fa;
-  --surface: #ffffff;
-  --surface-muted: #f1f3f6;
-  --foreground: #111318;
-  --foreground-secondary: #525866;
-  --foreground-muted: #868c98;
-  --border: #e4e7ec;
-  --border-strong: #d0d5dd;
-  --brand: #e03e52;
-  --brand-soft: #fff1f3;
-  --brand-foreground: #ffffff;
+  --canvas: #fafafa;
+  --canvas-elevated: #ffffff;
+  --hairline-soft: #f2f2f2;
+  --ink: #171717;
+  --body: #4d4d4d;
+  --mute: #8f8f8f;
+  --faint: #a1a1a1;
+  --hairline: #ebebeb;
+  --hairline-strong: #d4d4d4;
+  --primary: #171717;
+  --on-primary: #ffffff;
+  --link: #0070f3;
+  --link-deep: #0761d1;
+  --link-soft: #d3e5ff;
+  --error: #ee0000;
+  --warning: #f5a623;
+  --warning-soft: #ffefcf;
+  --warning-deep: #ab570a;
 }
 
 .dark {
-  --background: #0c0d10;
-  --surface: #14161b;
-  --surface-muted: #1c1f26;
-  --foreground: #f4f5f7;
-  --foreground-secondary: #a1a7b3;
-  --foreground-muted: #6c727f;
-  --border: #23262f;
-  --border-strong: #323642;
-  --brand: #f05264;
-  --brand-soft: rgba(240, 82, 100, 0.14);
-  --brand-foreground: #ffffff;
+  --canvas: #000000;
+  --canvas-elevated: #0a0a0a;
+  --hairline-soft: #141414;
+  --ink: #ededed;
+  --body: #a1a1a1;
+  --mute: #737373;
+  --faint: #525252;
+  --hairline: #262626;
+  --hairline-strong: #3a3a3a;
+  --primary: #ededed;
+  --on-primary: #0a0a0a;
+  --link: #3291ff;
+  --link-deep: #0070f3;
+  --link-soft: rgba(50, 145, 255, 0.14);
+  --error: #ff4d4d;
+  --warning: #f5a623;
+  --warning-soft: rgba(245, 166, 35, 0.14);
+  --warning-deep: #f7b955;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-muted: var(--surface-muted);
-  --color-foreground: var(--foreground);
-  --color-foreground-secondary: var(--foreground-secondary);
-  --color-foreground-muted: var(--foreground-muted);
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
-  --color-brand: var(--brand);
-  --color-brand-soft: var(--brand-soft);
-  --color-brand-foreground: var(--brand-foreground);
+  --color-background: var(--canvas);
+  --color-surface: var(--canvas-elevated);
+  --color-surface-muted: var(--hairline-soft);
+  --color-foreground: var(--ink);
+  --color-foreground-secondary: var(--body);
+  --color-foreground-muted: var(--mute);
+  --color-faint: var(--faint);
+  --color-border: var(--hairline);
+  --color-border-strong: var(--hairline-strong);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-link: var(--link);
+  --color-link-soft: var(--link-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
   text-rendering: optimizeLegibility;
 }
 

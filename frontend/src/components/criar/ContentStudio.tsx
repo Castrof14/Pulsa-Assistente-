@@ -88,7 +88,7 @@ export function ContentStudio({
   const previewCaption =
     generatedCount === 0
       ? `${objective}\n\nNa ${business.name}, cada protocolo é pensado para respeitar o ritmo da sua pele — sem exageros, com orientação simples e acompanhamento próximo.\n\n${cta}.`
-      : `✨ ${previewHeadline}\n\n${objective}\n\nCom nosso atendimento em ${business.city}, você descobre o que realmente funciona para a sua rotina.\n\n👉 ${cta}`;
+      : `${previewHeadline}\n\n${objective}\n\nCom nosso atendimento em ${business.city}, você descobre o que realmente funciona para a sua rotina.\n\n${cta}.`;
 
   const previewHashtags = [
     "#clinicaaura",
@@ -108,13 +108,16 @@ export function ContentStudio({
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       {/* Coluna de briefing */}
-      <div className="space-y-5 lg:col-span-7">
+      <div className="space-y-6 lg:col-span-7">
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>1. Formato da publicação</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                01 / FORMATO
+              </span>
+              <CardTitle className="mt-1">Formato da publicação</CardTitle>
               <CardDescription>
-                Escolha o formato para ajustar a estrutura e a prévia visual
+                Escolha o formato para ajustar a proporção e a prévia visual
               </CardDescription>
             </div>
           </CardHeader>
@@ -131,21 +134,21 @@ export function ContentStudio({
                       setFormat(item.id);
                       setSlideIndex(1);
                     }}
-                    className={`flex flex-col items-start gap-2 rounded-xl border p-3.5 text-left transition-all cursor-pointer ${
+                    className={`flex flex-col items-start gap-2 rounded-[6px] border p-3.5 text-left transition-colors cursor-pointer ${
                       active
-                        ? "border-brand bg-brand-soft/60 ring-1 ring-brand/30"
-                        : "border-border bg-surface hover:bg-surface-muted/60"
+                        ? "border-foreground bg-surface-muted"
+                        : "border-border bg-surface hover:bg-surface-muted/50"
                     }`}
                   >
                     <Icon
-                      className={`h-4 w-4 ${active ? "text-brand" : "text-foreground-muted"}`}
+                      className={`h-4 w-4 ${active ? "text-foreground" : "text-foreground-muted"}`}
                       aria-hidden="true"
                     />
                     <div>
-                      <div className="text-[13px] font-semibold text-foreground">
+                      <div className="text-[13px] font-medium text-foreground">
                         {item.label}
                       </div>
-                      <div className="mt-0.5 text-[11px] text-foreground-muted">
+                      <div className="mt-0.5 font-mono text-[10px] text-foreground-muted">
                         {item.hint}
                       </div>
                     </div>
@@ -159,15 +162,18 @@ export function ContentStudio({
         <Card>
           <CardHeader>
             <div>
-              <CardTitle>2. Objetivo e direcionamento</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                02 / BRIEFING
+              </span>
+              <CardTitle className="mt-1">Objetivo e direcionamento</CardTitle>
               <CardDescription>
-                Descreva o que deseja comunicar. A prévia ao lado atualiza em tempo real.
+                Descreva o que deseja comunicar. A prévia ao lado reflete o conteúdo em tempo real.
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <span className="mb-2 block text-[11px] font-medium uppercase tracking-wider text-foreground-muted">
+              <span className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.04em] text-foreground-muted">
                 Sugestões rápidas
               </span>
               <div className="flex flex-wrap gap-2">
@@ -176,7 +182,7 @@ export function ContentStudio({
                     key={idea.label}
                     type="button"
                     onClick={() => applyQuickIdea(idea)}
-                    className="rounded-full border border-border bg-surface-muted/60 px-3 py-1 text-[12px] font-medium text-foreground-secondary transition-colors hover:border-border-strong hover:text-foreground cursor-pointer"
+                    className="rounded-full border border-border bg-surface px-3 py-1 text-[12px] font-medium text-foreground-secondary transition-colors hover:border-border-strong hover:text-foreground cursor-pointer"
                   >
                     {idea.label}
                   </button>
@@ -187,7 +193,7 @@ export function ContentStudio({
             <div>
               <label
                 htmlFor="post-topic"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Tema ou título principal
               </label>
@@ -197,14 +203,14 @@ export function ContentStudio({
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="Ex.: 3 passos para manter a pele hidratada no verão"
-                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground placeholder:text-foreground-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                className="w-full rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] text-foreground placeholder:text-foreground-muted focus:border-foreground focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="post-objective"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Objetivo da publicação
               </label>
@@ -214,14 +220,14 @@ export function ContentStudio({
                 value={objective}
                 onChange={(e) => setObjective(e.target.value)}
                 placeholder="Descreva o que o seguidor deve entender, sentir ou fazer após ver este conteúdo..."
-                className="w-full resize-none rounded-lg border border-border bg-surface px-3 py-2 text-[13px] leading-relaxed text-foreground placeholder:text-foreground-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                className="w-full resize-none rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] leading-relaxed text-foreground placeholder:text-foreground-muted focus:border-foreground focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="post-cta"
-                className="mb-1.5 block text-[12px] font-medium text-foreground"
+                className="mb-1.5 block text-[13px] font-medium text-foreground"
               >
                 Chamada para ação (CTA)
               </label>
@@ -231,21 +237,20 @@ export function ContentStudio({
                 value={cta}
                 onChange={(e) => setCta(e.target.value)}
                 placeholder="Ex.: Comente AURA ou agende pelo link da bio"
-                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[13px] text-foreground placeholder:text-foreground-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                className="w-full rounded-[6px] border border-border bg-surface px-3 py-2 text-[14px] text-foreground placeholder:text-foreground-muted focus:border-foreground focus:outline-none"
               />
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/70 pt-4">
-              <p className="text-[11px] text-foreground-muted">
-                Tom aplicado: <span className="font-medium text-foreground">{brand.tone}</span>{" "}
-                (perfil da marca)
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+              <p className="font-mono text-[11px] text-foreground-muted">
+                TOM ATIVO: <span className="text-foreground uppercase">{brand.tone}</span>
               </p>
               <Button
-                variant="brand"
+                variant="primary"
                 onClick={() => setGeneratedCount((c) => c + 1)}
               >
-                <Sparkles className="h-4 w-4" aria-hidden="true" />
-                <span>Atualizar prévia demonstrativa</span>
+                <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                <span>Atualizar prévia</span>
               </Button>
             </div>
           </CardContent>
@@ -257,19 +262,21 @@ export function ContentStudio({
         <Card className="sticky top-20 overflow-hidden">
           <CardHeader>
             <div>
-              <CardTitle>Prévia demonstrativa</CardTitle>
+              <span className="font-mono text-[11px] uppercase tracking-[0.04em] text-foreground-muted">
+                03 / PRÉVIA DEMONSTRATIVA
+              </span>
+              <CardTitle className="mt-1">Simulação local</CardTitle>
               <CardDescription>
-                Simulação local · {selectedFormat.label} ({selectedFormat.hint})
+                {selectedFormat.label} ({selectedFormat.hint})
               </CardDescription>
             </div>
           </CardHeader>
-          <CardContent className="bg-surface-muted/40">
-            <div className="mx-auto max-w-[340px] overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
-              {/* Header estilo Instagram */}
-              <div className="flex items-center justify-between px-3.5 py-2.5">
+          <CardContent className="bg-surface-muted/50">
+            <div className="mx-auto max-w-[340px] overflow-hidden rounded-[12px] border border-border bg-surface shadow-[0_1px_1px_rgba(0,0,0,0.04)]">
+              <div className="flex items-center justify-between border-b border-border px-3.5 py-2.5">
                 <div className="flex items-center gap-2.5">
                   <div
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-[11px] font-semibold text-white"
+                    className="flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-semibold text-white"
                     style={{ backgroundColor: brand.colors.primary }}
                   >
                     {brand.logoInitials}
@@ -281,12 +288,11 @@ export function ContentStudio({
                     <div className="text-[10px] text-foreground-muted">{business.city}</div>
                   </div>
                 </div>
-                <span className="rounded bg-surface-muted px-2 py-0.5 text-[10px] font-medium text-foreground-secondary">
+                <span className="rounded-[4px] border border-border bg-surface-muted px-1.5 py-0.5 font-mono text-[10px] uppercase text-foreground-secondary">
                   {selectedFormat.label}
                 </span>
               </div>
 
-              {/* Arte simulada */}
               <div
                 className={`relative flex w-full flex-col justify-between p-5 ${selectedFormat.aspect}`}
                 style={{
@@ -296,20 +302,20 @@ export function ContentStudio({
               >
                 <div className="flex items-center justify-between">
                   <span
-                    className="rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white"
+                    className="rounded-full px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-white"
                     style={{ backgroundColor: brand.colors.primary }}
                   >
                     {business.segment}
                   </span>
                   {format === "carrossel" && (
-                    <span className="rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-medium text-white tabular-nums">
+                    <span className="rounded-full bg-black/75 px-2 py-0.5 font-mono text-[10px] text-white tabular-nums">
                       {slideIndex}/{totalSlides}
                     </span>
                   )}
                 </div>
 
                 <div className="my-auto space-y-2 py-4">
-                  <p className="text-lg font-semibold leading-snug tracking-[-0.02em] text-zinc-900">
+                  <p className="text-[18px] font-semibold leading-snug tracking-[-0.02em] text-zinc-900">
                     {format === "carrossel" && slideIndex > 1
                       ? `Lâmina ${slideIndex}: passo prático para sua rotina`
                       : previewHeadline}
@@ -320,14 +326,14 @@ export function ContentStudio({
                 </div>
 
                 <div className="flex items-center justify-between border-t border-black/10 pt-2.5 text-[11px] font-medium text-zinc-700">
-                  <span>{business.instagramHandle}</span>
+                  <span className="font-mono">{business.instagramHandle}</span>
                   {format === "carrossel" && (
                     <div className="flex items-center gap-1">
                       <button
                         type="button"
                         onClick={() => setSlideIndex((i) => Math.max(1, i - 1))}
                         disabled={slideIndex === 1}
-                        className="rounded p-1 hover:bg-black/5 disabled:opacity-30 cursor-pointer"
+                        className="rounded-[4px] p-1 hover:bg-black/5 disabled:opacity-30 cursor-pointer"
                         aria-label="Lâmina anterior"
                       >
                         <ChevronLeft className="h-3.5 w-3.5" />
@@ -336,7 +342,7 @@ export function ContentStudio({
                         type="button"
                         onClick={() => setSlideIndex((i) => Math.min(totalSlides, i + 1))}
                         disabled={slideIndex === totalSlides}
-                        className="rounded p-1 hover:bg-black/5 disabled:opacity-30 cursor-pointer"
+                        className="rounded-[4px] p-1 hover:bg-black/5 disabled:opacity-30 cursor-pointer"
                         aria-label="Próxima lâmina"
                       >
                         <ChevronRight className="h-3.5 w-3.5" />
@@ -346,9 +352,8 @@ export function ContentStudio({
                 </div>
               </div>
 
-              {/* Ações e legenda */}
               {format !== "stories" && (
-                <div className="space-y-2.5 px-3.5 py-3">
+                <div className="space-y-2.5 border-t border-border px-3.5 py-3">
                   <div className="flex items-center justify-between text-foreground-secondary">
                     <div className="flex items-center gap-3">
                       <Heart className="h-4 w-4" aria-hidden="true" />
@@ -365,7 +370,7 @@ export function ContentStudio({
                       {previewCaption}
                     </span>
                   </div>
-                  <p className="text-[11px] font-medium text-brand">
+                  <p className="font-mono text-[11px] text-[var(--link)]">
                     {previewHashtags.join(" ")}
                   </p>
                 </div>
